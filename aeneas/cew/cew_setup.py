@@ -22,34 +22,47 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Compile the Python C Extension for synthesizing text with eSpeak.
+Compile the Python C Extension for synthesizing text with eSpeak NG.
 
 .. versionadded:: 1.3.0
 """
 
-from __future__ import absolute_import
-from __future__ import print_function
-from setuptools import Extension
-from setuptools import setup
+from __future__ import absolute_import, print_function
+
+import shlex
+import subprocess
 import sys
 
+from setuptools import Extension, setup
+
+
+# Resolve espeak-ng compiler and linker flags via pkg-config
+def _pkg_config_flags(pkg, flag):
+    try:
+        out = subprocess.check_output(
+            ["pkg-config", flag, pkg], universal_newlines=True
+        ).strip()
+        return shlex.split(out)
+    except Exception:
+        return []
+
+
+ESPEAKNG_CFLAGS = _pkg_config_flags("espeak-ng", "--cflags")
+ESPEAKNG_LIBS = _pkg_config_flags("espeak-ng", "--libs")
 
 CMODULE = Extension(
     name="cew",
-    sources=[
-        "cew_py.c",
-        "cew_func.c"
-    ],
-    libraries=[
-        "espeak"
-    ]
+    sources=["cew_py.c", "cew_func.c"],
+    libraries=["espeak-ng"],
+    extra_compile_args=ESPEAKNG_CFLAGS,
+    extra_link_args=ESPEAKNG_LIBS,
 )
 
 setup(
     name="cew",
     version="1.7.3",
-    description="Python C Extension for synthesizing text with eSpeak.",
-    ext_modules=[CMODULE]
+    description="Python C Extension for synthesizing text with eSpeak NG.",
+    ext_modules=[CMODULE],
 )
 
 print("\n[INFO] Module cew successfully compiled\n")

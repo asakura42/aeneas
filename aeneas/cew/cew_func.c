@@ -29,7 +29,17 @@ Python C Extension for synthesizing text with eSpeak
 #include <stdlib.h>
 #include <string.h>
 
-#include "speak_lib.h"
+#if defined(__has_include)
+  #if __has_include(<espeak-ng/speak_lib.h>)
+    #include <espeak-ng/speak_lib.h>
+  #elif __has_include(<espeak/speak_lib.h>)
+    #include <espeak/speak_lib.h>
+  #else
+    #include "speak_lib.h"
+  #endif
+#else
+  #include "speak_lib.h"
+#endif
 #include "cew_func.h"
 
 static float current_time;

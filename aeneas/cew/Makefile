@@ -25,10 +25,10 @@ DRIVER=$(PREFIX)_driver
 SETUP_PY=$(PREFIX)_setup.py
 
 SRCS=$(DRIVER).c $(FUNC).c ../cint/cint.c
-CLIBS=-lespeak
+CLIBS=$(shell pkg-config --libs espeak-ng)
 
 CC=gcc
-CFLAGS=-Wall -pedantic -std=c99
+CFLAGS=-Wall -pedantic -std=c99 $(shell pkg-config --cflags espeak-ng)
 PYTHON=python
 
 
@@ -36,7 +36,7 @@ PYTHON=python
 all: driver py
 
 $(DRIVER): $(SRCS)
-	$(CC) $(SRCS) -o $(DRIVER) $(CLIBS) $(CFLAGS) 
+	$(CC) $(CFLAGS) $(SRCS) -o $(DRIVER) $(CLIBS)
 
 driver: $(DRIVER)
 

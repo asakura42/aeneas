@@ -1,0 +1,160 @@
+[build-system]
+requires = ["setuptools", "wheel", "numpy"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aeneas"
+version = "1.7.4.0"
+description = "aeneas is a Python/C library and a set of tools to automagically synchronize audio and text (aka forced alignment)"
+readme = "README.rst"
+authors = [
+    { name = "Alberto Pettarin", email = "alberto@albertopettarin.it" }
+]
+license = "AGPL-3.0-only"
+keywords = [
+    "AUD",
+    "AWS Polly TTS API",
+    "CSV",
+    "DTW",
+    "EAF",
+    "ELAN",
+    "EPUB 3 Media Overlay",
+    "EPUB 3",
+    "EPUB",
+    "Festival",
+    "JSON",
+    "MFCC",
+    "Mel-frequency cepstral coefficients",
+    "Nuance TTS API",
+    "ReadBeyond Sync",
+    "ReadBeyond",
+    "SBV",
+    "SMIL",
+    "SRT",
+    "SSV",
+    "SUB",
+    "TGT",
+    "TSV",
+    "TTML",
+    "TTS",
+    "TextGrid",
+    "VTT",
+    "XML",
+    "aeneas",
+    "audio/text alignment",
+    "dynamic time warping",
+    "eSpeak",
+    "eSpeak-ng",
+    "espeak",
+    "espeak-ng",
+    "festival",
+    "ffmpeg",
+    "ffprobe",
+    "forced alignment",
+    "media overlay",
+    "rb_smil_emulator",
+    "speech to text",
+    "subtitles",
+    "sync",
+    "synchronization",
+    "text to speech",
+    "text2wave",
+    "tts",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: C",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 2",
+    "Programming Language :: Python :: 2.7",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.4",
+    "Programming Language :: Python :: 3.5",
+    "Topic :: Education",
+    "Topic :: Multimedia",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Multimedia :: Sound/Audio :: Analysis",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Printing",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing",
+    "Topic :: Text Processing :: Linguistic",
+    "Topic :: Text Processing :: Markup",
+    "Topic :: Text Processing :: Markup :: HTML",
+    "Topic :: Text Processing :: Markup :: XML",
+    "Topic :: Utilities"
+]
+dependencies = [
+    "BeautifulSoup4>=4.5.1",
+    "lxml>=3.6.0",
+    "numpy>=1.9"
+]
+
+[project.optional-dependencies]
+full = [
+    "boto3>=1.4.2",
+    "Pillow>=3.1.1",
+    "requests>=2.9.1",
+    "tgt>=1.4.2",
+    "youtube-dl>=2016.9.27",
+]
+nopillow = [
+    "boto3>=1.4.2",
+    "requests>=2.9.1",
+    "tgt>=1.4.2",
+    "youtube-dl>=2016.9.27",
+]
+boto3 = ["boto3>=1.4.2"]
+pillow = ["Pillow>=3.1.1"]
+requests = ["requests>=2.9.1"]
+tgt = ["tgt>=1.4.2"]
+
+[project.urls]
+Homepage = "https://github.com/readbeyond/aeneas"
+
+[project.scripts]
+aeneas_check_setup = "aeneas.tools.bin.aeneas_check_setup:main"
+aeneas_convert_syncmap = "aeneas.tools.bin.aeneas_convert_syncmap:main"
+aeneas_download = "aeneas.tools.bin.aeneas_download:main"
+aeneas_execute_job = "aeneas.tools.bin.aeneas_execute_job:main"
+aeneas_execute_task = "aeneas.tools.bin.aeneas_execute_task:main"
+aeneas_plot_waveform = "aeneas.tools.bin.aeneas_plot_waveform:main"
+aeneas_synthesize_text = "aeneas.tools.bin.aeneas_synthesize_text:main"
+aeneas_validate = "aeneas.tools.bin.aeneas_validate:main"
+
+[tool.setuptools]
+packages = [
+    "aeneas",
+    "aeneas.cdtw",
+    "aeneas.cew",
+    "aeneas.cfw",
+    "aeneas.cmfcc",
+    "aeneas.cwave",
+    "aeneas.extra",
+    "aeneas.syncmap",
+    "aeneas.tools",
+    "aeneas.ttswrappers",
+    "aeneas.tools.bin",
+]
+
+[tool.setuptools.package-data]
+"aeneas" = ["res/*", "*.md"]
+"aeneas.cdtw" = ["*.c", "*.h", "*.md"]
+"aeneas.cew" = ["*.c", "*.h", "*.md", "*.dll", "*.cc"]
+"aeneas.cmfcc" = ["*.c", "*.h", "*.md"]
+"aeneas.cwave" = ["*.c", "*.h", "*.md"]
+"aeneas.extra" = ["*.md"]
+"aeneas.syncmap" = ["*.md"]
+"aeneas.tools" = ["res/*", "*.md"]
+"aeneas.ttswrappers" = ["*.md"]

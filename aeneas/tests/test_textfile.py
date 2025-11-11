@@ -506,13 +506,13 @@ class TestTextFile(unittest.TestCase):
         self.filter_ignore_regex("word", [u"word abc word"], [u"abc"])
 
     def test_filter_ignore_regex_parenthesis(self):
-        self.filter_ignore_regex("\(.*?\)", [u"(CHAR) bla bla bla"], [u"bla bla bla"])
+        self.filter_ignore_regex(r"\(.*?\)", [u"(CHAR) bla bla bla"], [u"bla bla bla"])
 
     def test_filter_ignore_regex_brackets(self):
-        self.filter_ignore_regex("\[.*?\]", [u"[CHAR] bla bla bla"], [u"bla bla bla"])
+        self.filter_ignore_regex(r"\[.*?\]", [u"[CHAR] bla bla bla"], [u"bla bla bla"])
 
     def test_filter_ignore_regex_braces(self):
-        self.filter_ignore_regex("\{.*?\}", [u"{CHAR} bla bla bla"], [u"bla bla bla"])
+        self.filter_ignore_regex(r"\{.*?\}", [u"{CHAR} bla bla bla"], [u"bla bla bla"])
 
     def test_filter_ignore_regex_entire_match(self):
         self.filter_ignore_regex("word", [u"word"], [u""])

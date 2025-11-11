@@ -30,7 +30,6 @@ Compile the Python C Extension for computing the MFCCs from a WAVE mono file.
 from __future__ import absolute_import
 from __future__ import print_function
 from numpy import get_include
-from numpy.distutils import misc_util
 from setuptools import Extension
 from setuptools import setup
 import sys
@@ -53,7 +52,7 @@ setup(
     version="1.7.3",
     description="Python C Extension for computing the MFCCs as fast as your bare metal allows.",
     ext_modules=[CMODULE],
-    include_dirs=[misc_util.get_numpy_include_dirs()]
+    include_dirs=[get_include()]
 )
 
 print("\n[INFO] Module cmfcc successfully compiled\n")

@@ -14,8 +14,8 @@ The TTS engine can be called using one of these methods:
 Currently, the available TTS engines are:
 
 * `AWSTTSWrapper` for `AWS Polly TTS API` (Python calling remote AWS Polly API)
-* `ESPEAKTTSWrapper` for `eSpeak` (C extension, subprocess; default TTS Wrapper)
-* `ESPEAKNGTTSWrapper` for `eSpeak-ng` (subprocess)
+* `ESPEAKTTSWrapper` for `eSpeak` (C extension, subprocess)
+* `ESPEAKNGTTSWrapper` for `eSpeak-ng` (subprocess; default TTS Wrapper)
 * `FESTIVALTTSWrapper` for `Festival` (subprocess)
 * `NuanceTTSWrapper` for `Nuance TTS API` (Python calling remote Nuance API)
 * `MacOSTTSWrapper` for `macOS` (subprocess)

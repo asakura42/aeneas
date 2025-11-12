@@ -78,7 +78,7 @@ System Requirements
 2. `Python <https://python.org/>`__ 2.7 (Linux, OS X, Windows) or 3.5 or
    later (Linux, OS X)
 3. `FFmpeg <https://www.ffmpeg.org/>`__
-4. `eSpeak <http://espeak.sourceforge.net/>`__
+4. `eSpeak-ng <https://github.com/espeak-ng/espeak-ng/>`__
 5. Python packages ``BeautifulSoup4``, ``lxml``, and ``numpy``
 6. Python headers to compile the Python C/C++ extensions (optional but
    strongly recommended)
@@ -118,10 +118,10 @@ The generic OS-independent procedure is simple:
 
 1. **Install** `Python <https://python.org/>`__ (2.7.x preferred),
    `FFmpeg <https://www.ffmpeg.org/>`__, and
-   `eSpeak <http://espeak.sourceforge.net/>`__
+   `eSpeak-ng <https://github.com/espeak-ng/espeak-ng/>`__
 
 2. Make sure the following **executables** can be called from your
-   **shell**: ``espeak``, ``ffmpeg``, ``ffprobe``, ``pip``, and
+   **shell**: ``espeak-ng``, ``ffmpeg``, ``ffprobe``, ``pip``, and
    ``python``
 
 3. First install ``numpy`` with ``pip`` and then ``aeneas`` (this order
@@ -251,9 +251,9 @@ Supported Features
    SWE, TUR, UKR
 -  MFCC and DTW computed via Python C extensions to reduce the
    processing time
--  Several built-in TTS engine wrappers: AWS Polly TTS API, eSpeak
-   (default), eSpeak-ng, Festival, MacOS (via say), Nuance TTS API
--  Default TTS (eSpeak) called via a Python C extension for fast audio
+-  Several built-in TTS engine wrappers: AWS Polly TTS API, eSpeak-ng
+   (default), eSpeak, Festival, MacOS (via say), Nuance TTS API
+-  Default TTS (eSpeak-ng) called via a Python C extension for fast audio
    synthesis
 -  Possibility of running a custom, user-provided TTS engine Python
    wrapper (e.g., included example for speect)

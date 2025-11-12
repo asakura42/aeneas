@@ -62,7 +62,7 @@ in several formats, depending on its application:
 1. a reasonably recent machine (recommended 4 GB RAM, 2 GHz 64bit CPU)
 2. [Python](https://python.org/) 2.7 (Linux, OS X, Windows) or 3.5 or later (Linux, OS X)
 3. [FFmpeg](https://www.ffmpeg.org/)
-4. [eSpeak](http://espeak.sourceforge.net/)
+4. [eSpeak-ng](https://github.com/espeak-ng/espeak-ng/)
 5. Python packages `BeautifulSoup4`, `lxml`, and `numpy`
 6. Python headers to compile the Python C/C++ extensions (optional but strongly recommended)
 7. A shell supporting UTF-8 (optional but strongly recommended)
@@ -103,10 +103,10 @@ The generic OS-independent procedure is simple:
 1. **Install**
    [Python](https://python.org/) (2.7.x preferred),
    [FFmpeg](https://www.ffmpeg.org/), and
-   [eSpeak](http://espeak.sourceforge.net/)
+   [eSpeak-ng](https://github.com/espeak-ng/espeak-ng/)
 
 2. Make sure the following **executables** can be called from your **shell**:
-   `espeak`, `ffmpeg`, `ffprobe`, `pip`, and `python`
+   `espeak-ng`, `ffmpeg`, `ffprobe`, `pip`, and `python`
 
 3. First install `numpy` with `pip` and then `aeneas` (this order is important):
 
@@ -235,8 +235,8 @@ which explains how to use the built-in command line tools.
 * Output sync map formats: AUD, CSV, EAF, JSON, SMIL, SRT, SSV, SUB, TEXTGRID, TSV, TTML, TXT, VTT, XML
 * Confirmed working on 38 languages: AFR, ARA, BUL, CAT, CYM, CES, DAN, DEU, ELL, ENG, EPO, EST, FAS, FIN, FRA, GLE, GRC, HRV, HUN, ISL, ITA, JPN, LAT, LAV, LIT, NLD, NOR, RON, RUS, POL, POR, SLK, SPA, SRP, SWA, SWE, TUR, UKR
 * MFCC and DTW computed via Python C extensions to reduce the processing time
-* Several built-in TTS engine wrappers: AWS Polly TTS API, eSpeak (default), eSpeak-ng, Festival, MacOS (via say), Nuance TTS API
-* Default TTS (eSpeak) called via a Python C extension for fast audio synthesis
+* Several built-in TTS engine wrappers: AWS Polly TTS API, eSpeak-ng (default), eSpeak, Festival, MacOS (via say), Nuance TTS API
+* Default TTS (eSpeak-ng) called via a Python C extension for fast audio synthesis
 * Possibility of running a custom, user-provided TTS engine Python wrapper (e.g., included example for speect)
 * Batch processing of multiple audio/text pairs
 * Download audio from a YouTube video

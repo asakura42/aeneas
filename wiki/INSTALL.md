@@ -311,7 +311,7 @@ e.g. `C:\sync\eSpeak`, `C:\sync\FFmpeg`, `C:\sync\aeneas-1.5.0.3`, etc.
 
 #### Manual Procedure Step 2: Install eSpeak
 
-**eSpeak** is the text-to-speech synthesizer that **aeneas** uses by default.
+**eSpeak-ng** is the text-to-speech synthesizer that **aeneas** uses by default.
 
 1. Go to the eSpeak website, [http://espeak.sourceforge.net/download.html](http://espeak.sourceforge.net/download.html).
 2. Download and run the Windows install program, `setup_espeak-1.48.04.exe`.
@@ -331,7 +331,7 @@ To verify that eSpeak has been installed correctly and is in your path,
 open a **new** Windows command prompt and type
 
 ```
-espeak hello
+espeak-ng hello
 ```
 
 If all is well, you should hear the word “hello” pronounced.

@@ -644,18 +644,18 @@ class RuntimeConfiguration(Configuration):
     Allowed values are listed in :data:`~aeneas.synthesizer.Synthesizer.ALLOWED_VALUES`.
 
     The default value is
-    :data:`~aeneas.synthesizer.Synthesizer.ESPEAK` (``espeak``)
-    which will use the built-in eSpeak TTS wrapper.
-    You might need to provide a ``/full/path/to/your/espeak`` value
+    :data:`~aeneas.synthesizer.Synthesizer.ESPEAKNG` (``espeak-ng``)
+    which will use the built-in eSpeak-ng TTS wrapper.
+    You might need to provide a ``/full/path/to/your/espeak-ng`` value
     to the
     :data:`~aeneas.runtimeconfiguration.RuntimeConfiguration.TTS_PATH`
-    parameter if the command ``espeak`` is not available in
+    parameter if the command ``espeak-ng`` is not available in
     one of the directories listed in your ``PATH`` environment variable.
 
     Specify the value
-    :data:`~aeneas.synthesizer.Synthesizer.ESPEAKNG` (``espeak-ng``)
-    to use the eSpeak-ng TTS wrapper.
-    You might need to provide a ``/full/path/to/your/espeak-ng`` value
+    :data:`~aeneas.synthesizer.Synthesizer.ESPEAK` (``espeak``)
+    to use the eSpeak TTS wrapper.
+    You might need to provide a ``/full/path/to/your/espeak`` value
     to the
     :data:`~aeneas.runtimeconfiguration.RuntimeConfiguration.TTS_PATH`
     parameter if the command ``espeak-ng`` is not available in
@@ -787,7 +787,7 @@ class RuntimeConfiguration(Configuration):
 
     See also :data:`~aeneas.runtimeconfiguration.RuntimeConfiguration.TTS`.
 
-    Default: ``espeak``.
+    Default: ``espeak-ng``.
 
     .. versionadded:: 1.6.0
     """
@@ -811,7 +811,7 @@ class RuntimeConfiguration(Configuration):
 
     See also :data:`~aeneas.runtimeconfiguration.RuntimeConfiguration.TTS`.
 
-    Default: ``espeak``.
+    Default: ``espeak-ng``.
 
     .. versionadded:: 1.6.0
     """
@@ -835,7 +835,7 @@ class RuntimeConfiguration(Configuration):
 
     See also :data:`~aeneas.runtimeconfiguration.RuntimeConfiguration.TTS`.
 
-    Default: ``espeak``.
+    Default: ``espeak-ng``.
 
     .. versionadded:: 1.6.0
     """
@@ -1041,11 +1041,11 @@ class RuntimeConfiguration(Configuration):
             (0, int, [], "max length of single text file, in fragments (0 to disable)"),
         ),
         (TMP_PATH, (None, None, [], "path to the temporary dir")),
-        (TTS, ("espeak", None, [], "TTS wrapper to use")),
+        (TTS, ("espeak-ng", None, [], "TTS wrapper to use")),
         (
             TTS_PATH,
             (None, None, [], "path of the TTS executable/wrapper"),
-        ),  # None (= default) or "espeak" or "/usr/bin/espeak"
+        ),  # None (= default) or "espeak-ng" or "/usr/bin/espeak-ng"
         (
             TTS_VOICE_CODE,
             (
@@ -1070,21 +1070,21 @@ class RuntimeConfiguration(Configuration):
                 "if True, pass -z to espeak/espeak-ng CLI to remove end pause",
             ),
         ),
-        (TTS_L1, ("espeak", None, [], "TTS wrapper to use at level 1 (para)")),
+        (TTS_L1, ("espeak-ng", None, [], "TTS wrapper to use at level 1 (para)")),
         (
             TTS_PATH_L1,
             (None, None, [], "path to level 1 (para) TTS executable/wrapper"),
-        ),  # None (= default) or "espeak" or "/usr/bin/espeak"
-        (TTS_L2, ("espeak", None, [], "TTS wrapper to use at level 2 (sent)")),
+        ),  # None (= default) or "espeak-ng" or "/usr/bin/espeak-ng"
+        (TTS_L2, ("espeak-ng", None, [], "TTS wrapper to use at level 2 (sent)")),
         (
             TTS_PATH_L2,
             (None, None, [], "path to level 2 (sent) TTS executable/wrapper"),
-        ),  # None (= default) or "espeak" or "/usr/bin/espeak"
-        (TTS_L3, ("espeak", None, [], "TTS wrapper to use at level 3 (word)")),
+        ),  # None (= default) or "espeak-ng" or "/usr/bin/espeak-ng"
+        (TTS_L3, ("espeak-ng", None, [], "TTS wrapper to use at level 3 (word)")),
         (
             TTS_PATH_L3,
             (None, None, [], "path to level 3 (word) TTS executable/wrapper"),
-        ),  # None (= default) or "espeak" or "/usr/bin/espeak"
+        ),  # None (= default) or "espeak-ng" or "/usr/bin/espeak-ng"
         (
             VAD_EXTEND_SPEECH_INTERVAL_AFTER,
             ("0.000", TimeValue, [], "extend speech interval after, in s"),

@@ -37,8 +37,8 @@ create a new wrapper for your own TTS engine.
 Note: if you want to use `eSpeak` as your TTS engine
 in a production environment,
 do NOT use the `ctw_espeak.py` wrapper!
-`eSpeak` is the default TTS engine of `aeneas`,
-and the `aeneas.espeakwrapper` in the main library
+`eSpeak-ng` is the default TTS engine of `aeneas`,
+and the `aeneas.ttswrappers.espeakngttswrapper.ESPEAKNGTTSWrapper` in the main library
 is faster than the `ctw_espeak.py` wrapper.
 
 

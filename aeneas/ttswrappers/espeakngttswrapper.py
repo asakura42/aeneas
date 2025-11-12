@@ -1009,6 +1009,10 @@ class ESPEAKNGTTSWrapper(BaseTTSWrapper):
 
     HAS_SUBPROCESS_CALL = True
 
+    HAS_C_EXTENSION_CALL = True
+
+    C_EXTENSION_NAME = "cew"
+
     TAG = "ESPEAKNGTTSWrapper"
 
     def __init__(self, rconf=None, logger=None):
@@ -1030,3 +1034,142 @@ class ESPEAKNGTTSWrapper(BaseTTSWrapper):
         except Exception:
             pass
         self.set_subprocess_arguments(args)
+
+    def _synthesize_multiple_c_extension(
+        self, text_file, output_file_path, quit_after=None, backwards=False
+    ):
+        """
+        Synthesize multiple fragments using the cew C extension (espeak-ng).
+
+        Return a tuple (anchors, current_time, num_chars).
+        """
+        self.log("Synthesizing using C extension...")
+
+        # convert parameters from Python values to C values
+        try:
+            c_quit_after = float(quit_after)
+        except TypeError:
+            c_quit_after = 0.0
+        c_backwards = 1 if backwards else 0
+
+        self.log(["output_file_path: %s", output_file_path])
+        self.log(["c_quit_after:     %.3f", c_quit_after])
+        self.log(["c_backwards:      %d", c_backwards])
+
+        # prepare input text as (voice_code, text) tuples
+        self.log("Preparing u_text...")
+        u_text = []
+        fragments = text_file.fragments
+        for fragment in fragments:
+            f_lang = fragment.language
+            f_text = fragment.filtered_text
+            if f_lang is None:
+                f_lang = self.DEFAULT_LANGUAGE
+            f_voice_code = self._language_to_voice_code(f_lang)
+            if f_text is None:
+                f_text = ""
+            u_text.append((f_voice_code, f_text))
+        self.log("Preparing u_text... done")
+
+        # call C extension, optionally via subprocess helper
+        sr = None
+        sf = None
+        intervals = None
+
+        if self.rconf[RuntimeConfiguration.CEW_SUBPROCESS_ENABLED]:
+            self.log("Using cewsubprocess to call aeneas.cew")
+            try:
+                self.log("Importing aeneas.cewsubprocess...")
+                from aeneas.cewsubprocess import CEWSubprocess
+
+                self.log("Importing aeneas.cewsubprocess... done")
+                self.log("Calling aeneas.cewsubprocess...")
+                cewsub = CEWSubprocess(rconf=self.rconf, logger=self.logger)
+                sr, sf, intervals = cewsub.synthesize_multiple(
+                    output_file_path, c_quit_after, c_backwards, u_text
+                )
+                self.log("Calling aeneas.cewsubprocess... done")
+            except Exception as exc:
+                self.log_exc(
+                    "An unexpected error occurred while running cewsubprocess",
+                    exc,
+                    False,
+                    None,
+                )
+                # fall back to direct call
+
+        if sr is None:
+            self.log("Preparing c_text...")
+            if gf.PY2:
+                # Python 2 => pass byte strings
+                c_text = [(gf.safe_bytes(t[0]), gf.safe_bytes(t[1])) for t in u_text]
+            else:
+                # Python 3 => pass Unicode strings
+                c_text = [
+                    (gf.safe_unicode(t[0]), gf.safe_unicode(t[1])) for t in u_text
+                ]
+            self.log("Preparing c_text... done")
+
+            self.log("Calling aeneas.cew directly")
+            try:
+                self.log("Importing aeneas.cew...")
+                import aeneas.cew.cew
+
+                self.log("Importing aeneas.cew... done")
+                self.log("Calling aeneas.cew...")
+                sr, sf, intervals = aeneas.cew.cew.synthesize_multiple(
+                    output_file_path, c_quit_after, c_backwards, c_text
+                )
+                self.log("Calling aeneas.cew... done")
+            except Exception as exc:
+                self.log_exc(
+                    "An unexpected error occurred while running cew", exc, False, None
+                )
+                return (False, None)
+
+        self.log(["sr: %d", sr])
+        self.log(["sf: %d", sf])
+        # validate outputs to satisfy type checking and avoid runtime errors
+        try:
+            sf_int = int(sf)
+        except Exception:
+            return (False, None)
+        if intervals is None or not hasattr(intervals, "__len__"):
+            return (False, None)
+        if sf_int < 0:
+            return (False, None)
+        # bound count to available data
+        count = min(sf_int, len(intervals), len(fragments))
+
+        # create output
+        anchors = []
+        current_time = TimeValue("0.000")
+        num_chars = 0
+        if backwards:
+            fragments = fragments[::-1]
+        for i in range(count):
+            fragment = fragments[i]
+            # Extract times defensively as floats
+            try:
+                begin_val = float(intervals[i][0]) if intervals[i] is not None else 0.0
+            except Exception:
+                begin_val = 0.0
+            try:
+                end_val = (
+                    float(intervals[i][1]) if intervals[i] is not None else begin_val
+                )
+            except Exception:
+                end_val = begin_val
+            anchors.append(
+                [TimeValue(begin_val), fragment.identifier, fragment.filtered_text]
+            )
+            num_chars += fragment.characters
+            current_time = TimeValue(end_val)
+
+        # return output
+        # NOTE anchors do not make sense if backwards == True
+        self.log(["Returning %d time anchors", len(anchors)])
+        self.log(["Current time %.3f", current_time])
+        self.log(["Synthesized %d characters", num_chars])
+        self.log("Synthesizing using C extension... done")
+        return (True, (anchors, current_time, num_chars))

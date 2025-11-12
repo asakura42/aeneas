@@ -45,7 +45,7 @@ class ESPEAKTTSWrapper(BaseTTSWrapper):
     """
     A wrapper for the ``eSpeak`` TTS engine.
 
-    This wrapper is the default TTS engine for ``aeneas``.
+    Note: eSpeak-ng is now the default TTS engine for ``aeneas``; use this wrapper only when you explicitly select ``tts=espeak``.
 
     This wrapper supports calling the TTS engine
     via ``subprocess`` or via Python C extension.
@@ -59,7 +59,7 @@ class ESPEAKTTSWrapper(BaseTTSWrapper):
         "tts=espeak"
 
     in the ``RuntimeConfiguration`` object.
-    (You can omit this, since eSpeak is the default TTS engine.)
+    Note: eSpeak-ng is the default TTS engine; specify this only if you want to use eSpeak instead.
     To execute from a non-default location: ::
 
         "tts=espeak|tts_path=/path/to/espeak"

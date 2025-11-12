@@ -1,6 +1,6 @@
 # aeneas.cew
 
-**aeneas.cew** is a Python C extension to synthesize text with eSpeak.
+**aeneas.cew** is a Python C extension to synthesize text with eSpeak-ng.
 
 ## API
 

@@ -140,7 +140,7 @@ class Diagnostics(object):
     @classmethod
     def check_espeak(cls):
         """
-        Check whether ``espeak`` can be called.
+        Check whether ``espeak-ng`` (preferred) or ``espeak`` can be called.
 
         Return ``True`` on failure and ``False`` on success.
 
@@ -180,13 +180,13 @@ class Diagnostics(object):
                 raise Exception("Neither espeak nor espeak-ng CLI succeeded")
         except:
             pass
-        gf.print_error("espeak/espeak-ng ERROR")
+        gf.print_error("espeak-ng/espeak ERROR")
         gf.print_info(
-            "  Please make sure you have either espeak or espeak-ng installed correctly"
+            "  Please make sure you have espeak-ng installed correctly (preferred), or espeak as a fallback"
         )
         gf.print_info("  and that its path is in your PATH environment variable")
         gf.print_info(
-            "  You might also want to check that the espeak-data or espeak-ng-data directory"
+            "  You might also want to check that the espeak-ng-data or espeak-data directory"
         )
         gf.print_info(
             "  is set up correctly, for example, it has the correct permissions"

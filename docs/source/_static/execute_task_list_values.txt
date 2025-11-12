@@ -4,10 +4,8 @@ $ python -m aeneas.tools.execute_task --list-values
 aws
 espeak
 espeak-ng
-festival
 is_text_type
 is_text_unparsed_id_sort
-nuance
 os_task_file_format
 os_task_file_head_tail_format
 task_adjust_boundary_algorithm
@@ -37,4 +35,3 @@ yue     Yue Chinese (not tested)
 zh	    Mandarin Chinese (not tested)
 zh-yue	Yue Chinese (not tested)
 zho	    Chinese (not tested)
-

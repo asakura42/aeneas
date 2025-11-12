@@ -21,27 +21,37 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
 import os
+import unittest
 
-from aeneas.textfile import TextFile
-from aeneas.textfile import TextFragment
-from aeneas.ttswrappers.basettswrapper import BaseTTSWrapper
-from aeneas.runtimeconfiguration import RuntimeConfiguration
 import aeneas.globalfunctions as gf
+from aeneas.runtimeconfiguration import RuntimeConfiguration
+from aeneas.textfile import TextFile, TextFragment
+from aeneas.ttswrappers.basettswrapper import BaseTTSWrapper
 
 
 class TestBaseTTSWrapper(unittest.TestCase):
-
-    TTS = u""
-    TTS_PATH = u""
+    TTS = ""
+    TTS_PATH = ""
 
     TTS_CLASS = BaseTTSWrapper
-    TTS_LANGUAGE = u"eng"
+    TTS_LANGUAGE = "eng"
     TTS_LANGUAGE_VARIATION = None
 
-    def synthesize(self, text_file, ofp=None, quit_after=None, backwards=False, zero_length=False, expected_exc=None):
-        if (self.TTS == u"") or (self.TTS_PATH == u"") or (not os.path.exists(self.TTS_PATH)):
+    def synthesize(
+        self,
+        text_file,
+        ofp=None,
+        quit_after=None,
+        backwards=False,
+        zero_length=False,
+        expected_exc=None,
+    ):
+        if (
+            (self.TTS == "")
+            or (self.TTS_PATH == "")
+            or (not os.path.exists(self.TTS_PATH))
+        ):
             return
 
         def inner(c_ext, cew_subprocess, cache):
@@ -59,10 +69,7 @@ class TestBaseTTSWrapper(unittest.TestCase):
                 rconf[RuntimeConfiguration.TTS_CACHE] = cache
                 tts_engine = self.TTS_CLASS(rconf=rconf)
                 anchors, total_time, num_chars = tts_engine.synthesize_multiple(
-                    text_file,
-                    output_file_path,
-                    quit_after,
-                    backwards
+                    text_file, output_file_path, quit_after, backwards
                 )
                 gf.delete_file(handler, output_file_path)
                 if cache:
@@ -77,15 +84,13 @@ class TestBaseTTSWrapper(unittest.TestCase):
                     tts_engine.clear_cache()
                 with self.assertRaises(expected_exc):
                     raise exc
+
         if self.TTS == "espeak":
             for c_ext in [True, False]:
                 for cew_subprocess in [True, False]:
                     for cache in [True, False]:
                         inner(c_ext=c_ext, cew_subprocess=cew_subprocess, cache=cache)
-        elif self.TTS == "festival":
-            for c_ext in [True, False]:
-                for cache in [True, False]:
-                    inner(c_ext=c_ext, cew_subprocess=False, cache=cache)
+
         else:
             for cache in [True, False]:
                 inner(c_ext=True, cew_subprocess=False, cache=cache)
@@ -93,7 +98,9 @@ class TestBaseTTSWrapper(unittest.TestCase):
     def tfl(self, frags):
         tfl = TextFile()
         for language, lines in frags:
-            tfl.add_fragment(TextFragment(language=language, lines=lines, filtered_lines=lines))
+            tfl.add_fragment(
+                TextFragment(language=language, lines=lines, filtered_lines=lines)
+            )
         return tfl
 
     def test_not_implemented(self):
@@ -101,7 +108,7 @@ class TestBaseTTSWrapper(unittest.TestCase):
             tts_engine = BaseTTSWrapper()
 
     def test_use_cache(self):
-        if self.TTS == u"":
+        if self.TTS == "":
             return
         rconf = RuntimeConfiguration()
         rconf[RuntimeConfiguration.TTS_CACHE] = True
@@ -110,7 +117,7 @@ class TestBaseTTSWrapper(unittest.TestCase):
         self.assertIsNotNone(tts_engine.cache)
 
     def test_clear_cache(self):
-        if self.TTS == u"":
+        if self.TTS == "":
             return
         tts_engine = self.TTS_CLASS()
         tts_engine.clear_cache()
@@ -119,7 +126,7 @@ class TestBaseTTSWrapper(unittest.TestCase):
         self.synthesize(None, zero_length=True, expected_exc=TypeError)
 
     def test_invalid_output_path(self):
-        tfl = self.tfl([(self.TTS_LANGUAGE, [u"word"])])
+        tfl = self.tfl([(self.TTS_LANGUAGE, ["word"])])
         self.synthesize(tfl, ofp="x/y/z/not_existing.wav", expected_exc=OSError)
 
     def test_no_fragments(self):
@@ -128,48 +135,52 @@ class TestBaseTTSWrapper(unittest.TestCase):
         self.synthesize(tfl, expected_exc=ValueError)
 
     def test_unicode_ascii(self):
-        tfl = self.tfl([(self.TTS_LANGUAGE, [u"word"])])
+        tfl = self.tfl([(self.TTS_LANGUAGE, ["word"])])
         self.synthesize(tfl)
 
     def test_unicode_unicode(self):
-        tfl = self.tfl([(self.TTS_LANGUAGE, [u"Ausführliche"])])
+        tfl = self.tfl([(self.TTS_LANGUAGE, ["Ausführliche"])])
         self.synthesize(tfl)
 
     def test_empty(self):
-        tfl = self.tfl([(self.TTS_LANGUAGE, [u""])])
+        tfl = self.tfl([(self.TTS_LANGUAGE, [""])])
         self.synthesize(tfl, expected_exc=ValueError)
 
     def test_empty_multiline(self):
-        tfl = self.tfl([(self.TTS_LANGUAGE, [u"", u"", u""])])
+        tfl = self.tfl([(self.TTS_LANGUAGE, ["", "", ""])])
         self.synthesize(tfl, expected_exc=ValueError)
 
     def test_empty_fragments(self):
-        tfl = self.tfl([
-            (self.TTS_LANGUAGE, [u""]),
-            (self.TTS_LANGUAGE, [u""]),
-            (self.TTS_LANGUAGE, [u""]),
-        ])
+        tfl = self.tfl(
+            [
+                (self.TTS_LANGUAGE, [""]),
+                (self.TTS_LANGUAGE, [""]),
+                (self.TTS_LANGUAGE, [""]),
+            ]
+        )
         self.synthesize(tfl, expected_exc=ValueError)
 
     def test_empty_mixed(self):
-        tfl = self.tfl([(self.TTS_LANGUAGE, [u"Word", u"", u"Word"])])
+        tfl = self.tfl([(self.TTS_LANGUAGE, ["Word", "", "Word"])])
         self.synthesize(tfl)
 
     def test_empty_mixed_fragments(self):
-        tfl = self.tfl([
-            (self.TTS_LANGUAGE, [u"Word"]),
-            (self.TTS_LANGUAGE, [u""]),
-            (self.TTS_LANGUAGE, [u"Word"]),
-        ])
+        tfl = self.tfl(
+            [
+                (self.TTS_LANGUAGE, ["Word"]),
+                (self.TTS_LANGUAGE, [""]),
+                (self.TTS_LANGUAGE, ["Word"]),
+            ]
+        )
         self.synthesize(tfl)
 
     def test_invalid_language(self):
-        tfl = self.tfl([("zzzz", [u"Word"])])
+        tfl = self.tfl([("zzzz", ["Word"])])
         self.synthesize(tfl, expected_exc=ValueError)
 
     def test_variation_language(self):
         if self.TTS_LANGUAGE_VARIATION is not None:
-            tfl = self.tfl([(self.TTS_LANGUAGE_VARIATION, [u"Word"])])
+            tfl = self.tfl([(self.TTS_LANGUAGE_VARIATION, ["Word"])])
             self.synthesize(tfl)
 
 

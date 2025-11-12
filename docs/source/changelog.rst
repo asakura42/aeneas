@@ -14,7 +14,6 @@ v1.7.3 (2017-03-15)
 v1.7.2 (2017-03-03)
 -------------------
 
-#. Added MacOS TTS Wrapper (courtesy of Chris Vaughn)
 #. Removed dependency from ``pafy``, using ``youtube-dl`` directly (#159)
 #. Added retry mechanism to ``Downloader``, including ``DOWNLOADER_SLEEP`` and ``DOWNLOADER_RETRY_ATTEMPTS`` in ``RuntimeConfiguration``
 #. Fixed bug #160
@@ -29,7 +28,6 @@ v1.7.1 (2016-12-20)
 #. Fix bug #151
 #. Downgraded dependency on lxml to lxml>=3.6.0 to help packaging the Windows installer
 #. Added aeneas version to log
-#. Changed default voice for Festival TTS Wrapper to ``eng-USA`` to help people installing from source on Mac OS X
 
 v1.7.0 (2016-12-07)
 -------------------
@@ -38,8 +36,6 @@ v1.7.0 (2016-12-07)
 #. Renamed ``aeneas.timevalue`` into ``aeneas.exacttiming``
 #. Renamed ``audio_duration`` into ``length`` in ``SyncMapFragment`` for consistency with ``TimeInterval``
 #. Renamed ``os_task_file_no_zero`` (``PPN_OS_TASK_FILE_NO_ZERO``) to ``task_adjust_boundary_no_zero`` (``PPN_TASK_ADJUST_BOUNDARY_NO_ZERO``) in ``TaskConfiguration``
-#. Renamed ``nuance_tts_api_sleep`` (``NUANCE_TTS_API_SLEEP``) to ``tts_api_sleep`` (``TTS_API_SLEEP``) in ``RuntimeConfiguration``
-#. Renamed ``nuance_tts_api_retry_attempts`` (``NUANCE_TTS_API_RETRY_ATTEMPTS``) to ``tts_api_retry_attempts`` (``TTS_API_RETRY_ATTEMPTS``) in ``RuntimeConfiguration``
 #. Renamed ``--rates`` to ``--rate`` in ``ExecuteTaskCLI``
 #. Renamed ``--example-rates`` to ``--example-rate`` in ``ExecuteTaskCLI``
 #. Changed ``config_string()`` to property in ``aeneas.configuration.Configuration``
@@ -84,15 +80,13 @@ v1.7.0 (2016-12-07)
 #. Fixes issue with ``gf.relative_path()`` in Windows, if executed from a drive different than the install drive
 #. Fixed a bug with empty fragments when using subprocess TTS with TTS cache enabled
 #. Added ``--presets-word`` switch to ``aeneas.tools.execute_task``
-#. Added ``AWSTTSWrapper`` wrapper for AWS Polly TTS API 
+#. Added ``AWSTTSWrapper`` wrapper for AWS Polly TTS API
 #. Revised docs
 #. Fixed a bug in reading SMIL files with machine-readable timings
 #. Fixed a bug in ``SyncMapFragmentList`` which caused sync map to contain overlapping fragments
 
 v1.6.0.1 (2016-09-30)
 ---------------------
-
-#. Fixes bug in Nuance TTS wrapper
 
 v1.6.0 (2016-09-26)
 -------------------
@@ -101,9 +95,6 @@ v1.6.0 (2016-09-26)
 #. Created ``aeneas.ttswrappers`` subpackage
 #. Renamed ``aeneas.ttswrapper`` to ``aeneas.ttswrappers.basettswrapper``, and ``TTSWrapper`` to ``BaseTTSWrapper``
 #. Renamed ``aeneas.espeakwrapper`` to ``aeneas.ttswrappers.espeakttswrapper``, and ``ESPEAKWrapper`` to ``ESPEAKTTSWrapper``
-#. Renamed ``aeneas.festivalwrapper`` to ``aeneas.ttswrappers.festivalttswrapper``, and ``FESTIVALWrapper`` to ``FESTIVALTTSWrapper``
-#. Renamed ``aeneas.nuancettsapiwrapper`` to ``aeneas.ttswrappers.nuancettswrapper``, and ``NuanceTTSAPIWrapper`` to ``NuanceTTSWrapper``
-#. Modified the value for using the Nuance TTS API from ``nuancettsapi`` to ``nuance`` in ``aeneas.synthesizer.SYNTHESIZER``
 #. Now each TTS wrapper must declare the format (codec, channels, sample rate) of its output
 #. Now each TTS wrapper can declare the default path for the TTS engine executable, using ``DEFAULT_TTS_PATH``
 #. Changed the constructor of ``BaseTTSWrapper`` and derived classes, moving call method flags from constructor parameters to class fields
@@ -113,8 +104,6 @@ v1.6.0 (2016-09-26)
 #. When working on multilevel sync, user can specify a different TTS for each level
 #. Added an optional TTS caching mechanism to reduce subprocess/API calls to the TTS engine (closes #87)
 #. Added wrapper for eSpeak-ng (subprocess only)
-#. Added ``cfw`` Python C++ Extension to call ``Festival`` via its C++ API, disabled by default (closes #106)
-#. Unified unit tests for eSpeak, eSpeak-ng, and Festival
 #. Python C extension compilation can be disabled/forced in setup.py via env vars
 #. Added check on head/process/tail length which should not exceed the audio file length (closes #80)
 #. Moved package metadata from ``setup.py`` into ``setupmeta.py``
@@ -170,8 +159,6 @@ v1.5.0 (2016-04-02)
 #. Added ``Loggable`` to ``logger.py``, now most classes derive from it
 #. Added ``timevalue.py`` containing an arbitrary-precision type to represent time values (instead of ``float``)
 #. Added ``ttswrapper.py`` to support generic TTS engine invocation
-#. Added ``festivalwrapper.py``
-#. Added ``nuancettsapiwrapper.py``
 #. Modified ``espeakwrapper.py`` to fit in the new TTS architecture
 #. Renamed ``espeak_path`` to ``tts_path`` in ``RuntimeConfiguration``
 #. Deleted ``aeneas.tools.espeak_wrapper`` CLI tool, use ``aeneas.tools.synthesize_text`` instead
@@ -397,5 +384,3 @@ v1.0.1 (2015-05-12)
 -------------------
 
 #. Initial version
-
-

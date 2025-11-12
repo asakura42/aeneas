@@ -24,9 +24,8 @@
 import os
 import unittest
 
-from aeneas.tools.execute_task import ExecuteTaskCLI
 import aeneas.globalfunctions as gf
-
+from aeneas.tools.execute_task import ExecuteTaskCLI
 
 # TODO actually parse this file to know what extras
 #      (festival, speect, etc.) are available to test
@@ -34,7 +33,6 @@ EXTRA_TESTS = os.path.exists(os.path.join(os.path.expanduser("~"), ".aeneas.conf
 
 
 class TestExecuteTaskCLI(unittest.TestCase):
-
     def execute(self, parameters, expected_exit_code):
         output_path = gf.tmp_directory()
         params = ["placeholder"]
@@ -50,165 +48,264 @@ class TestExecuteTaskCLI(unittest.TestCase):
         self.assertEqual(exit_code, expected_exit_code)
 
     def test_exec_tts_no_cache_empty_fragments(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tests/res/inputtext/plain_with_empty_lines.txt"),
-            ("", "task_language=eng|is_text_type=plain|os_task_file_format=json"),
-            ("out", "sonnet.json"),
-            ("", "-r=\"tts_cache=False\"")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tests/res/inputtext/plain_with_empty_lines.txt"),
+                ("", "task_language=eng|is_text_type=plain|os_task_file_format=json"),
+                ("out", "sonnet.json"),
+                ("", '-r="tts_cache=False"'),
+            ],
+            0,
+        )
 
     def test_exec_tts_cache_empty_fragments(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tests/res/inputtext/plain_with_empty_lines.txt"),
-            ("", "task_language=eng|is_text_type=plain|os_task_file_format=json"),
-            ("out", "sonnet.json"),
-            ("", "-r=\"tts_cache=True\"")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tests/res/inputtext/plain_with_empty_lines.txt"),
+                ("", "task_language=eng|is_text_type=plain|os_task_file_format=json"),
+                ("out", "sonnet.json"),
+                ("", '-r="tts_cache=True"'),
+            ],
+            0,
+        )
 
     def test_exec_tts_cache_empty_fragments_pure(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tests/res/inputtext/plain_with_empty_lines.txt"),
-            ("", "task_language=eng|is_text_type=plain|os_task_file_format=json"),
-            ("out", "sonnet.json"),
-            ("", "-r=\"tts_cache=True|cew=False\"")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tests/res/inputtext/plain_with_empty_lines.txt"),
+                ("", "task_language=eng|is_text_type=plain|os_task_file_format=json"),
+                ("out", "sonnet.json"),
+                ("", '-r="tts_cache=True|cew=False"'),
+            ],
+            0,
+        )
 
     def test_exec_tts_cache_empty_fragments_festival(self):
         if not EXTRA_TESTS:
             return
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tests/res/inputtext/plain_with_empty_lines.txt"),
-            ("", "task_language=eng|is_text_type=plain|os_task_file_format=json"),
-            ("out", "sonnet.json"),
-            ("", "-r=\"tts=festival|tts_cache=True|cfw=True\"")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tests/res/inputtext/plain_with_empty_lines.txt"),
+                ("", "task_language=eng|is_text_type=plain|os_task_file_format=json"),
+                ("out", "sonnet.json"),
+                ("", '-r="tts=espeak-ng|tts_cache=True"'),
+            ],
+            0,
+        )
 
     def test_exec_tts_cache_empty_fragments_festival_pure(self):
         if not EXTRA_TESTS:
             return
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tests/res/inputtext/plain_with_empty_lines.txt"),
-            ("", "task_language=eng|is_text_type=plain|os_task_file_format=json"),
-            ("out", "sonnet.json"),
-            ("", "-r=\"tts=festival|tts_cache=True|cfw=False\"")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tests/res/inputtext/plain_with_empty_lines.txt"),
+                ("", "task_language=eng|is_text_type=plain|os_task_file_format=json"),
+                ("out", "sonnet.json"),
+                ("", '-r="tts=espeak-ng|tts_cache=True"'),
+            ],
+            0,
+        )
 
     def test_exec_rateaggressive_remove_nonspeech(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tools/res/subtitles.txt"),
-            ("", "task_language=eng|is_text_type=subtitles|os_task_file_format=srt|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE"),
-            ("out", "sonnet.srt")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tools/res/subtitles.txt"),
+                (
+                    "",
+                    "task_language=eng|is_text_type=subtitles|os_task_file_format=srt|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE",
+                ),
+                ("out", "sonnet.srt"),
+            ],
+            0,
+        )
 
     def test_exec_rateaggressive_remove_nonspeech_add(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tools/res/subtitles.txt"),
-            ("", "task_language=eng|is_text_type=subtitles|os_task_file_format=srt|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE|os_task_file_head_tail_format=add"),
-            ("out", "sonnet.srt")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tools/res/subtitles.txt"),
+                (
+                    "",
+                    "task_language=eng|is_text_type=subtitles|os_task_file_format=srt|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE|os_task_file_head_tail_format=add",
+                ),
+                ("out", "sonnet.srt"),
+            ],
+            0,
+        )
 
     def test_exec_rateaggressive_remove_nonspeech_smaller_rate(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tools/res/subtitles.txt"),
-            ("", "task_language=eng|is_text_type=subtitles|os_task_file_format=srt|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=12.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE"),
-            ("out", "sonnet.srt")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tools/res/subtitles.txt"),
+                (
+                    "",
+                    "task_language=eng|is_text_type=subtitles|os_task_file_format=srt|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=12.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE",
+                ),
+                ("out", "sonnet.srt"),
+            ],
+            0,
+        )
 
     def test_exec_rateaggressive_remove_nonspeech_idiotic_rate(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tools/res/subtitles.txt"),
-            ("", "task_language=eng|is_text_type=subtitles|os_task_file_format=srt|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=2.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE"),
-            ("out", "sonnet.srt")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tools/res/subtitles.txt"),
+                (
+                    "",
+                    "task_language=eng|is_text_type=subtitles|os_task_file_format=srt|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=2.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE",
+                ),
+                ("out", "sonnet.srt"),
+            ],
+            0,
+        )
 
     def test_exec_rateaggressive_remove_nonspeech_nozero(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tools/res/subtitles.txt"),
-            ("", "task_language=eng|is_text_type=subtitles|os_task_file_format=srt|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE|task_adjust_boundary_no_zero=True"),
-            ("out", "sonnet.srt")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tools/res/subtitles.txt"),
+                (
+                    "",
+                    "task_language=eng|is_text_type=subtitles|os_task_file_format=srt|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE|task_adjust_boundary_no_zero=True",
+                ),
+                ("out", "sonnet.srt"),
+            ],
+            0,
+        )
 
     def test_exec_rateaggressive_nozero(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tools/res/subtitles.txt"),
-            ("", "task_language=eng|is_text_type=subtitles|os_task_file_format=srt|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_no_zero=True"),
-            ("out", "sonnet.srt")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tools/res/subtitles.txt"),
+                (
+                    "",
+                    "task_language=eng|is_text_type=subtitles|os_task_file_format=srt|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_no_zero=True",
+                ),
+                ("out", "sonnet.srt"),
+            ],
+            0,
+        )
 
     def test_exec_rateaggressive_nozero_add(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tools/res/subtitles.txt"),
-            ("", "task_language=eng|is_text_type=subtitles|os_task_file_format=srt|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_no_zero=True|os_task_file_head_tail_format=add"),
-            ("out", "sonnet.srt")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tools/res/subtitles.txt"),
+                (
+                    "",
+                    "task_language=eng|is_text_type=subtitles|os_task_file_format=srt|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_no_zero=True|os_task_file_head_tail_format=add",
+                ),
+                ("out", "sonnet.srt"),
+            ],
+            0,
+        )
 
     def test_exec_mplain_rateaggressive_remove_nonspeech(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tools/res/mplain.txt"),
-            ("", "task_language=eng|is_text_type=mplain|os_task_file_format=json|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE"),
-            ("out", "sonnet.json")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tools/res/mplain.txt"),
+                (
+                    "",
+                    "task_language=eng|is_text_type=mplain|os_task_file_format=json|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE",
+                ),
+                ("out", "sonnet.json"),
+            ],
+            0,
+        )
 
     def test_exec_mplain_rateaggressive_remove_nonspeech_add(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tools/res/mplain.txt"),
-            ("", "task_language=eng|is_text_type=mplain|os_task_file_format=json|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE|os_task_file_head_tail_format=add"),
-            ("out", "sonnet.json")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tools/res/mplain.txt"),
+                (
+                    "",
+                    "task_language=eng|is_text_type=mplain|os_task_file_format=json|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE|os_task_file_head_tail_format=add",
+                ),
+                ("out", "sonnet.json"),
+            ],
+            0,
+        )
 
     def test_exec_mplain_rateaggressive_remove_nonspeech_smaller_rate(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tools/res/mplain.txt"),
-            ("", "task_language=eng|is_text_type=mplain|os_task_file_format=json|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=12.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE"),
-            ("out", "sonnet.json")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tools/res/mplain.txt"),
+                (
+                    "",
+                    "task_language=eng|is_text_type=mplain|os_task_file_format=json|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=12.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE",
+                ),
+                ("out", "sonnet.json"),
+            ],
+            0,
+        )
 
     def test_exec_mplain_rateaggressive_remove_nonspeech_idiotic_rate(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tools/res/mplain.txt"),
-            ("", "task_language=eng|is_text_type=mplain|os_task_file_format=json|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=2.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE"),
-            ("out", "sonnet.json")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tools/res/mplain.txt"),
+                (
+                    "",
+                    "task_language=eng|is_text_type=mplain|os_task_file_format=json|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=2.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE",
+                ),
+                ("out", "sonnet.json"),
+            ],
+            0,
+        )
 
     def test_exec_mplain_rateaggressive_remove_nonspeech_nozero(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tools/res/mplain.txt"),
-            ("", "task_language=eng|is_text_type=mplain|os_task_file_format=json|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE|task_adjust_boundary_no_zero=True"),
-            ("out", "sonnet.json")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tools/res/mplain.txt"),
+                (
+                    "",
+                    "task_language=eng|is_text_type=mplain|os_task_file_format=json|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_nonspeech_min=0.500|task_adjust_boundary_nonspeech_string=REMOVE|task_adjust_boundary_no_zero=True",
+                ),
+                ("out", "sonnet.json"),
+            ],
+            0,
+        )
 
     def test_exec_mplain_rateaggressive_nozero(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tools/res/mplain.txt"),
-            ("", "task_language=eng|is_text_type=mplain|os_task_file_format=json|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_no_zero=True"),
-            ("out", "sonnet.json")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tools/res/mplain.txt"),
+                (
+                    "",
+                    "task_language=eng|is_text_type=mplain|os_task_file_format=json|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_no_zero=True",
+                ),
+                ("out", "sonnet.json"),
+            ],
+            0,
+        )
 
     def test_exec_mplain_rateaggressive_nozero_add(self):
-        self.execute([
-            ("in", "../tools/res/audio.mp3"),
-            ("in", "../tools/res/mplain.txt"),
-            ("", "task_language=eng|is_text_type=mplain|os_task_file_format=json|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_no_zero=True|os_task_file_head_tail_format=add"),
-            ("out", "sonnet.json")
-        ], 0)
+        self.execute(
+            [
+                ("in", "../tools/res/audio.mp3"),
+                ("in", "../tools/res/mplain.txt"),
+                (
+                    "",
+                    "task_language=eng|is_text_type=mplain|os_task_file_format=json|task_adjust_boundary_algorithm=rateaggressive|task_adjust_boundary_rate_value=14.000|task_adjust_boundary_no_zero=True|os_task_file_head_tail_format=add",
+                ),
+                ("out", "sonnet.json"),
+            ],
+            0,
+        )
 
 
 if __name__ == "__main__":

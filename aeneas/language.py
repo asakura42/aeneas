@@ -43,8 +43,8 @@ class Language(object):
     * :class:`~aeneas.ttswrappers.awsttswrapper.AWSTTSWrapper`
     * :class:`~aeneas.ttswrappers.espeakttswrapper.ESPEAKTTSWrapper`
     * :class:`~aeneas.ttswrappers.espeakngttswrapper.ESPEAKNGTTSWrapper`
-    * :class:`~aeneas.ttswrappers.festivalttswrapper.FESTIVALTTSWrapper`
-    * :class:`~aeneas.ttswrappers.nuancettswrapper.NuanceTTSWrapper`
+
+
 
     Each language is indicated by its ISO 639-3 language code.
     """

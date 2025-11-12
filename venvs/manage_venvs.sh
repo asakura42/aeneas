@@ -152,9 +152,7 @@ sdist() {
         python -m aeneas.diagnostics
         echo "[INFO] Diagnostics... done"
 
-        echo "[INFO] Testing CFW..."
-        python -c 'import aeneas.globalfunctions as gf; print(gf.can_run_c_extension("cfw"))'
-        echo "[INFO] Testing CFW... done"
+
 
         deactivate
         cd ..

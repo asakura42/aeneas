@@ -40,9 +40,6 @@ from aeneas.textfile import TextFile
 from aeneas.ttswrappers.awsttswrapper import AWSTTSWrapper
 from aeneas.ttswrappers.espeakngttswrapper import ESPEAKNGTTSWrapper
 from aeneas.ttswrappers.espeakttswrapper import ESPEAKTTSWrapper
-from aeneas.ttswrappers.festivalttswrapper import FESTIVALTTSWrapper
-from aeneas.ttswrappers.macosttswrapper import MacOSTTSWrapper
-from aeneas.ttswrappers.nuancettswrapper import NuanceTTSWrapper
 
 
 class Synthesizer(Loggable):
@@ -58,9 +55,7 @@ class Synthesizer(Loggable):
     :raises: OSError: if a custom TTS engine is requested
                       but it cannot be loaded
     :raises: ImportError: if the AWS Polly TTS API wrapper is requested
-                          but the ``boto3`` module is not installed, or
-                          if the Nuance TTS API wrapper is requested
-                          but the``requests`` module is not installed
+                          but the ``boto3`` module is not installed
     """
 
     AWS = "aws"
@@ -75,16 +70,7 @@ class Synthesizer(Loggable):
     ESPEAKNG = "espeak-ng"
     """ Select eSpeak-ng wrapper """
 
-    FESTIVAL = "festival"
-    """ Select Festival wrapper """
-
-    MACOS = "macos"
-    """ Select macOS "say" wrapper """
-
-    NUANCE = "nuance"
-    """ Select Nuance TTS API wrapper """
-
-    ALLOWED_VALUES = [AWS, CUSTOM, ESPEAK, ESPEAKNG, FESTIVAL, MACOS, NUANCE]
+    ALLOWED_VALUES = [AWS, CUSTOM, ESPEAK, ESPEAKNG]
     """ List of all the allowed values """
 
     TAG = "Synthesizer"
@@ -138,27 +124,11 @@ class Synthesizer(Loggable):
                 )
             self.log("TTS engine: AWS Polly TTS API")
             self.tts_engine = AWSTTSWrapper(rconf=self.rconf, logger=self.logger)
-        elif requested_tts_engine == self.NUANCE:
-            try:
-                import requests
-            except ImportError as exc:
-                self.log_exc(
-                    "Unable to import requests for Nuance TTS API wrapper",
-                    exc,
-                    True,
-                    ImportError,
-                )
-            self.log("TTS engine: Nuance TTS API")
-            self.tts_engine = NuanceTTSWrapper(rconf=self.rconf, logger=self.logger)
+
         elif requested_tts_engine == self.ESPEAKNG:
             self.log("TTS engine: eSpeak-ng")
             self.tts_engine = ESPEAKNGTTSWrapper(rconf=self.rconf, logger=self.logger)
-        elif requested_tts_engine == self.FESTIVAL:
-            self.log("TTS engine: Festival")
-            self.tts_engine = FESTIVALTTSWrapper(rconf=self.rconf, logger=self.logger)
-        elif requested_tts_engine == self.MACOS:
-            self.log("TTS engine: macOS")
-            self.tts_engine = MacOSTTSWrapper(rconf=self.rconf, logger=self.logger)
+
         elif requested_tts_engine == self.ESPEAK:
             self.log("TTS engine: eSpeak")
             self.tts_engine = ESPEAKTTSWrapper(rconf=self.rconf, logger=self.logger)

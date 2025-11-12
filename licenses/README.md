@@ -18,16 +18,7 @@ is a verbatim copy from the
 [espeak project](http://espeak.sourceforge.net/).
 See [licenses/eSpeak.txt](https://raw.githubusercontent.com/readbeyond/aeneas/master/licenses/eSpeak.txt) for details.
 
-The C++ headers in `festival` and `speech_tools` for the Python C++ extension `cfw`
-are verbatim copies from the
-[Festival project](http://www.cstr.ed.ac.uk/projects/festival/)
-and the
-[Edinburgh Speech Tools Library project](http://www.cstr.ed.ac.uk/projects/speech_tools/).
-See
-[licenses/Festival.txt](https://raw.githubusercontent.com/readbeyond/aeneas/master/licenses/Festival.txt)
-and
-[licenses/speech_tools.txt](https://raw.githubusercontent.com/readbeyond/aeneas/master/licenses/EST.txt)
-for details.
+
 
 The HTML file `aeneas/res/finetuneas.html`
 is a verbatim copy from the

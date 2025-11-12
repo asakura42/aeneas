@@ -73,11 +73,11 @@ To uninstall ``aeneas`` from the venv:
 $ bash manage_venvs.sh python3.5 sdist --remove
 ```
 
-To force building the ``cfw`` extension:
+
 
 ```bash
-$ bash manage_venvs.sh python3.5 install
-$ AENEAS_FORCE_CFW=True bash manage_venvs.sh python3.5 sdist
+
+
 ```
 
 ### Manual testing

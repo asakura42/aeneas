@@ -42,7 +42,7 @@ First, we need some definitions:
 
         Text of the first fragment
         Text of the second fragment
-        Text of the third fragment    
+        Text of the third fragment
 
 .. topic:: Sync Map File
 
@@ -202,21 +202,21 @@ Input Text Formats
    (example: ``--example-json``):
 
    .. code-block:: text
-    
+
     Text of the first fragment
     Text of the second fragment
     Text of the third fragment
-   
+
 #. :data:`~aeneas.textfile.TextFileFormat.PARSED`,
    one fragment per line, starting with an explicit identifier
    (example: ``--example-tsv``):
-    
+
    .. code-block:: text
-    
+
     f001|Text of the first fragment
     f002|Text of the second fragment
     f003|Text of the third fragment
-   
+
 
 #. :data:`~aeneas.textfile.TextFileFormat.SUBTITLES`,
    fragments separated by a blank line, each fragment
@@ -225,7 +225,7 @@ Input Text Formats
    (example: ``--example-srt``):
 
    .. code-block:: text
-    
+
     Fragment on a single row
 
     Fragment on two rows
@@ -252,7 +252,7 @@ Input Text Formats
    (example: ``--example-mplain-json``):
 
    .. code-block:: text
-    
+
     First sentence of Paragraph One.
     Second sentence of Paragraph One.
 
@@ -295,7 +295,7 @@ you need to provide the following additional parameters:
 Similarly, for :data:`~aeneas.textfile.TextFileFormat.MUNPARSED` files
 you need to provide the following additional parameters:
 
-* :data:`~aeneas.globalconstants.PPN_TASK_IS_TEXT_MUNPARSED_L1_ID_REGEX`, 
+* :data:`~aeneas.globalconstants.PPN_TASK_IS_TEXT_MUNPARSED_L1_ID_REGEX`,
 * :data:`~aeneas.globalconstants.PPN_TASK_IS_TEXT_MUNPARSED_L2_ID_REGEX`, and
 * :data:`~aeneas.globalconstants.PPN_TASK_IS_TEXT_MUNPARSED_L3_ID_REGEX`.
 
@@ -305,11 +305,11 @@ you need to provide the following additional parameters:
 .. note::
     If you are interested in synchronizing at **word granularity**,
     it is highly suggested to use:
-   
+
     1. MFCC nonspeech masking;
     2. a **multilevel text format**,
        even if you are going to use only the timings for the finer granularity;
-    3. better TTS engines, like Festival or AWS/Nuance TTS API;
+    3. better TTS engines, like AWS Polly TTS API;
 
     as they generally yield more accurate timings.
 
@@ -345,7 +345,7 @@ you need to provide the following additional parameters:
     * :data:`~aeneas.runtimeconfiguration.RuntimeConfiguration.MFCC_WINDOW_SHIFT_L2`,
     * :data:`~aeneas.runtimeconfiguration.RuntimeConfiguration.MFCC_WINDOW_LENGTH_L3`,
     * :data:`~aeneas.runtimeconfiguration.RuntimeConfiguration.MFCC_WINDOW_SHIFT_L3`.
-    
+
     Starting with ``aeneas`` v1.6.0,
     you can also specify a different TTS engine for each level, see:
 
@@ -362,7 +362,7 @@ you need to provide the following additional parameters:
     * :data:`~aeneas.runtimeconfiguration.RuntimeConfiguration.MFCC_MASK_NONSPEECH_L1`,
     * :data:`~aeneas.runtimeconfiguration.RuntimeConfiguration.MFCC_MASK_NONSPEECH_L2`,
     * :data:`~aeneas.runtimeconfiguration.RuntimeConfiguration.MFCC_MASK_NONSPEECH_L3`.
-    
+
     If you are using a multilevel text format,
     you might want to enable MFCC masking only for level 3 (word),
     as enabling it for level 1 and 2 does not seem to yield significantly
@@ -503,17 +503,7 @@ Examples:
 
         python -m aeneas.tools.execute_task --example-json -r="tts=espeak-ng|tts_path=/path/to/espeak-ng"
 
-#. use the Festival TTS, via the ``text2wave`` executable available on ``$PATH``, instead of eSpeak:
 
-    .. code-block:: text
-
-        python -m aeneas.tools.execute_task --example-json -r="tts=festival"
-
-#. use the Festival TTS, via the ``text2wave`` executable at a custom location, instead of eSpeak:
-
-    .. code-block:: text
-
-        python -m aeneas.tools.execute_task --example-json -r="tts=festival|tts_path=/path/to/text2wave"
 
 #. use the AWS Polly TTS API instead of eSpeak (with TTS caching enabled):
 
@@ -521,11 +511,7 @@ Examples:
 
         python -m aeneas.tools.execute_task --example-json -r="tts=aws|tts_cache=True"
 
-#. use the Nuance TTS API instead of eSpeak (with TTS caching enabled):
 
-    .. code-block:: text
-
-        python -m aeneas.tools.execute_task --example-json -r="tts=nuance|nuance_tts_api_id=YOUR_NUANCE_API_ID|nuance_tts_api_key=YOUR_NUANCE_API_KEY|tts_cache=True"
 
 #. use a custom TTS wrapper located at ``/path/to/your/wrapper.py`` (see the ``aeneas/extra/`` directory for examples):
 
@@ -574,7 +560,7 @@ you might want to create a Job:
 
     A Job is a container (compressed file or uncompressed directory),
     containing:
-    
+
     * one or more pairs audio/text files, and
     * a configuration file (``config.txt`` or ``config.xml``)
       specifying parameters to locate each Task assets inside the Job,
@@ -660,7 +646,7 @@ placeholder (``$PREFIX``) that will be replaced with the Task id.
 
 XML Config File (``config.xml``)
 --------------------------------
-            
+
 While ``config.txt`` is concise and easy to write,
 it constraints all the tasks of the job to share the same
 execution settings (language, output format, and so on).
@@ -679,6 +665,3 @@ Tasks with different languages, output formats, etc.:
 
 .. literalinclude:: _static/execute_job_config_xml_2.txt
     :language: xml
-
-
-

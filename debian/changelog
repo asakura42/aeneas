@@ -34,7 +34,7 @@ aeneas (1.7.0) stable; urgency=medium
 
 aeneas (1.6.0.1) stable; urgency=medium
 
-  * Fixed bug in Nuance TTS wrapper 
+  * Fixed bug in Nuance TTS wrapper
 
  -- alberto <alberto@nievo>  Fri, 30 Sep 2016 10:42:16 +0200
 
@@ -45,7 +45,7 @@ aeneas (1.6.0) stable; urgency=medium
   * Added eSpeak-ng TTS wrapper
   * Added caching audio files for faster synthesis
   * The TTS engine can be selected per-level (text in multilevel format)
-  * Added cfw Python C++ extension for Festival (disabled by default)
+
   * Python C extension compilation can be disabled in setup.py via env vars
   * All Python code formatted according to PEP 8 (-E501)
   * All source files have AGPLv3 header

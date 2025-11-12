@@ -25,8 +25,8 @@
 Global common functions.
 """
 
-from __future__ import absolute_import
-from __future__ import print_function
+from __future__ import absolute_import, print_function
+
 import datetime
 import io
 import math
@@ -37,17 +37,16 @@ import sys
 import tempfile
 import uuid
 
-from aeneas.exacttiming import TimeValue
 import aeneas.globalconstants as gc
-
+from aeneas.exacttiming import TimeValue
 
 # RUNTIME CONSTANTS
 
 # ANSI codes to color output in terminal
-ANSI_END = u"\033[0m"
-ANSI_ERROR = u"\033[91m"
-ANSI_OK = u"\033[92m"
-ANSI_WARNING = u"\033[93m"
+ANSI_END = "\033[0m"
+ANSI_ERROR = "\033[91m"
+ANSI_OK = "\033[92m"
+ANSI_WARNING = "\033[93m"
 
 # timing regex patterns
 HHMMSS_MMM_PATTERN = re.compile(r"([0-9]*):([0-9]*):([0-9]*)\.([0-9]*)")
@@ -57,10 +56,11 @@ HHMMSS_MMM_PATTERN_COMMA = re.compile(r"([0-9]*):([0-9]*):([0-9]*),([0-9]*)")
 FROZEN = getattr(sys, "frozen", False)
 
 # True if running under Python 2
-PY2 = (sys.version_info[0] == 2)
+PY2 = sys.version_info[0] == 2
 
 
 # COMMON FUNCTIONS
+
 
 def safe_print(msg):
     """
@@ -79,9 +79,13 @@ def safe_print(msg):
             decoded = encoded.decode(sys.stdout.encoding, "replace")
             print(decoded)
         except (UnicodeDecodeError, UnicodeEncodeError):
-            print(u"[ERRO] An unexpected error happened while printing to stdout.")
-            print(u"[ERRO] Please check that your file/string encoding matches the shell encoding.")
-            print(u"[ERRO] If possible, set your shell encoding to UTF-8 and convert any files with legacy encodings.")
+            print("[ERRO] An unexpected error happened while printing to stdout.")
+            print(
+                "[ERRO] Please check that your file/string encoding matches the shell encoding."
+            )
+            print(
+                "[ERRO] If possible, set your shell encoding to UTF-8 and convert any files with legacy encodings."
+            )
 
 
 def print_error(msg, color=True):
@@ -92,9 +96,9 @@ def print_error(msg, color=True):
     :param bool color: if ``True``, print with POSIX color
     """
     if color and is_posix():
-        safe_print(u"%s[ERRO] %s%s" % (ANSI_ERROR, msg, ANSI_END))
+        safe_print("%s[ERRO] %s%s" % (ANSI_ERROR, msg, ANSI_END))
     else:
-        safe_print(u"[ERRO] %s" % (msg))
+        safe_print("[ERRO] %s" % (msg))
 
 
 def print_info(msg, color=True):
@@ -104,7 +108,7 @@ def print_info(msg, color=True):
     :param string msg: the message
     :param bool color: if ``True``, print with POSIX color
     """
-    safe_print(u"[INFO] %s" % (msg))
+    safe_print("[INFO] %s" % (msg))
 
 
 def print_success(msg, color=True):
@@ -115,9 +119,9 @@ def print_success(msg, color=True):
     :param bool color: if ``True``, print with POSIX color
     """
     if color and is_posix():
-        safe_print(u"%s[INFO] %s%s" % (ANSI_OK, msg, ANSI_END))
+        safe_print("%s[INFO] %s%s" % (ANSI_OK, msg, ANSI_END))
     else:
-        safe_print(u"[INFO] %s" % (msg))
+        safe_print("[INFO] %s" % (msg))
 
 
 def print_warning(msg, color=True):
@@ -128,9 +132,9 @@ def print_warning(msg, color=True):
     :param bool color: if ``True``, print with POSIX color
     """
     if color and is_posix():
-        safe_print(u"%s[WARN] %s%s" % (ANSI_WARNING, msg, ANSI_END))
+        safe_print("%s[WARN] %s%s" % (ANSI_WARNING, msg, ANSI_END))
     else:
-        safe_print(u"[WARN] %s" % (msg))
+        safe_print("[WARN] %s" % (msg))
 
 
 def uuid_string():
@@ -177,7 +181,7 @@ def tmp_directory(root=None):
     return tempfile.mkdtemp(dir=root)
 
 
-def tmp_file(suffix=u"", root=None):
+def tmp_file(suffix="", root=None):
     """
     Return a (handler, path) tuple
     for a temporary file with given suffix created by ``tempfile``.
@@ -256,16 +260,16 @@ def datetime_string(time_zone=False):
     :rtype: string
     """
     time = datetime.datetime.now()
-    template = u"%04d-%02d-%02dT%02d:%02d:%02d"
+    template = "%04d-%02d-%02dT%02d:%02d:%02d"
     if time_zone:
-        template += u"+00:00"
+        template += "+00:00"
     return template % (
         time.year,
         time.month,
         time.day,
         time.hour,
         time.minute,
-        time.second
+        time.second,
     )
 
 
@@ -405,6 +409,7 @@ def config_xml_to_dict(contents, result, parse_job=True):
     :rtype: dict (``parse_job=True``) or list of dict (``parse_job=False``)
     """
     from lxml import etree
+
     try:
         root = etree.fromstring(contents)
         pairs = []
@@ -412,11 +417,14 @@ def config_xml_to_dict(contents, result, parse_job=True):
             # parse job
             for elem in root:
                 if (elem.tag != gc.CONFIG_XML_TASKS_TAG) and (elem.text is not None):
-                    pairs.append(u"%s%s%s" % (
-                        safe_unicode(elem.tag),
-                        gc.CONFIG_STRING_ASSIGNMENT_SYMBOL,
-                        safe_unicode(elem.text.strip())
-                    ))
+                    pairs.append(
+                        "%s%s%s"
+                        % (
+                            safe_unicode(elem.tag),
+                            gc.CONFIG_STRING_ASSIGNMENT_SYMBOL,
+                            safe_unicode(elem.text.strip()),
+                        )
+                    )
             return pairs_to_dict(pairs)
         else:
             # parse tasks
@@ -426,11 +434,14 @@ def config_xml_to_dict(contents, result, parse_job=True):
                     pairs = []
                     for elem in task:
                         if elem.text is not None:
-                            pairs.append(u"%s%s%s" % (
-                                safe_unicode(elem.tag),
-                                gc.CONFIG_STRING_ASSIGNMENT_SYMBOL,
-                                safe_unicode(elem.text.strip())
-                            ))
+                            pairs.append(
+                                "%s%s%s"
+                                % (
+                                    safe_unicode(elem.tag),
+                                    gc.CONFIG_STRING_ASSIGNMENT_SYMBOL,
+                                    safe_unicode(elem.text.strip()),
+                                )
+                            )
                     output_list.append(pairs_to_dict(pairs))
             return output_list
     except:
@@ -461,11 +472,9 @@ def config_dict_to_string(dictionary):
     """
     parameters = []
     for key in dictionary:
-        parameters.append(u"%s%s%s" % (
-            key,
-            gc.CONFIG_STRING_ASSIGNMENT_SYMBOL,
-            dictionary[key]
-        ))
+        parameters.append(
+            "%s%s%s" % (key, gc.CONFIG_STRING_ASSIGNMENT_SYMBOL, dictionary[key])
+        )
     return gc.CONFIG_STRING_SEPARATOR_SYMBOL.join(parameters)
 
 
@@ -489,9 +498,7 @@ def pairs_to_dict(pairs, result=None):
     for pair in pairs:
         if len(pair) > 0:
             tokens = pair.split(gc.CONFIG_STRING_ASSIGNMENT_SYMBOL)
-            if ((len(tokens) == 2) and
-                    (len(tokens[0])) > 0 and
-                    (len(tokens[1]) > 0)):
+            if (len(tokens) == 2) and (len(tokens[0])) > 0 and (len(tokens[1]) > 0):
                 dictionary[tokens[0]] = tokens[1]
             elif result is not None:
                 result.add_warning("Invalid key=value string: '%s'" % pair)
@@ -528,7 +535,7 @@ def copytree(source_directory, destination_directory, ignore=None):
                 copytree(
                     os.path.join(source_directory, f),
                     os.path.join(destination_directory, f),
-                    ignore
+                    ignore,
                 )
     else:
         shutil.copyfile(source_directory, destination_directory)
@@ -550,7 +557,7 @@ def ensure_parent_directory(path, ensure_parent=True):
         try:
             os.makedirs(parent_directory)
         except (IOError, OSError):
-            raise OSError(u"Directory '%s' cannot be created" % parent_directory)
+            raise OSError("Directory '%s' cannot be created" % parent_directory)
 
 
 def time_from_ttml(string):
@@ -670,7 +677,7 @@ def time_to_hhmmssmmm(time_value, decimal_separator="."):
         time_value = 0
     tmp = time_value
     hours = int(math.floor(tmp / 3600))
-    tmp -= (hours * 3600)
+    tmp -= hours * 3600
     minutes = int(math.floor(tmp / 60))
     tmp -= minutes * 60
     seconds = int(math.floor(tmp))
@@ -681,7 +688,7 @@ def time_to_hhmmssmmm(time_value, decimal_separator="."):
         minutes,
         seconds,
         decimal_separator,
-        milliseconds
+        milliseconds,
     )
 
 
@@ -812,34 +819,30 @@ def can_run_c_extension(name=None):
     :param string name: the name of the Python C extension to test
     :rtype: bool
     """
+
     def can_run_cdtw():
-        """ Python C extension for computing DTW """
+        """Python C extension for computing DTW"""
         try:
             import aeneas.cdtw.cdtw
+
             return True
         except ImportError:
             return False
 
     def can_run_cmfcc():
-        """ Python C extension for computing MFCC """
+        """Python C extension for computing MFCC"""
         try:
             import aeneas.cmfcc.cmfcc
+
             return True
         except ImportError:
             return False
 
     def can_run_cew():
-        """ Python C extension for synthesizing with eSpeak """
+        """Python C extension for synthesizing with eSpeak"""
         try:
             import aeneas.cew.cew
-            return True
-        except ImportError:
-            return False
 
-    def can_run_cfw():
-        """ Python C extension for synthesizing with Festival """
-        try:
-            import aeneas.cfw.cfw
             return True
         except ImportError:
             return False
@@ -850,20 +853,14 @@ def can_run_c_extension(name=None):
         return can_run_cmfcc()
     elif name == "cew":
         return can_run_cew()
-    elif name == "cfw":
-        return can_run_cfw()
+
     else:
-        # NOTE cfw is still experimental!
+        # Combined availability check
         return can_run_cdtw() and can_run_cmfcc() and can_run_cew()
 
 
 def run_c_extension_with_fallback(
-        log_function,
-        extension,
-        c_function,
-        py_function,
-        args,
-        rconf
+    log_function, extension, c_function, py_function, args, rconf
 ):
     """
     Run a function calling a C extension, falling back
@@ -882,29 +879,33 @@ def run_c_extension_with_fallback(
     .. versionadded:: 1.4.0
     """
     computed = False
-    if not rconf[u"c_extensions"]:
-        log_function(u"C extensions disabled")
+    if not rconf["c_extensions"]:
+        log_function("C extensions disabled")
     elif extension not in rconf:
-        log_function([u"C extension '%s' not recognized", extension])
+        log_function(["C extension '%s' not recognized", extension])
     elif not rconf[extension]:
-        log_function([u"C extension '%s' disabled", extension])
+        log_function(["C extension '%s' disabled", extension])
     else:
-        log_function([u"C extension '%s' enabled", extension])
+        log_function(["C extension '%s' enabled", extension])
         if c_function is None:
-            log_function(u"C function is None")
+            log_function("C function is None")
         elif can_run_c_extension(extension):
-            log_function([u"C extension '%s' enabled and it can be loaded", extension])
+            log_function(["C extension '%s' enabled and it can be loaded", extension])
             computed, result = c_function(*args)
         else:
-            log_function([u"C extension '%s' enabled but it cannot be loaded", extension])
+            log_function(
+                ["C extension '%s' enabled but it cannot be loaded", extension]
+            )
     if not computed:
         if py_function is None:
-            log_function(u"Python function is None")
+            log_function("Python function is None")
         else:
-            log_function(u"Running the pure Python code")
+            log_function("Running the pure Python code")
             computed, result = py_function(*args)
     if not computed:
-        raise RuntimeError(u"Both the C extension and the pure Python code failed. (Wrong arguments? Input too big?)")
+        raise RuntimeError(
+            "Both the C extension and the pure Python code failed. (Wrong arguments? Input too big?)"
+        )
     return result
 
 

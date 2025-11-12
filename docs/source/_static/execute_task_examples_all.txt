@@ -21,8 +21,7 @@ Example 6 (input: plain text, output: EAF)
 Example 7 (input: plain text (plain), output: SRT, print faster than 12.0 chars/s)
   $ python -m aeneas.tools.execute_task --example-faster-rate
 
-Example 8 (input: plain text, output: TSV, tts engine: Festival)
-  $ python -m aeneas.tools.execute_task --example-festival
+
 
 Example 9 (input: mplain text (multilevel), output: JSON, levels to output: 1 and 2)
   $ python -m aeneas.tools.execute_task --example-flatten-12
@@ -99,12 +98,10 @@ Example 32 (input: parsed text, output: TSV)
 Example 33 (input: single word granularity plain text, output: AUD)
   $ python -m aeneas.tools.execute_task --example-words
 
-Example 34 (input: single word granularity plain text, output: AUD, tts engine: Festival, TTS cache on)
-  $ python -m aeneas.tools.execute_task --example-words-festival-cache
+
 
 Example 35 (input: mplain text (multilevel), output: AUD, levels to output: 3)
   $ python -m aeneas.tools.execute_task --example-words-multilevel
 
 Example 36 (input: audio from YouTube, output: TXT)
   $ python -m aeneas.tools.execute_task --example-youtube
-

@@ -87,8 +87,8 @@ class RuntimeConfiguration(Configuration):
     Otherwise, use the pure Python code.
 
     This option is equivalent to
-    setting ``CDTW``, ``CEW``, ``CFW``,
-    and ``CMFCC`` to ``True`` or ``False`` at once.
+    setting ``CDTW``, ``CEW``, and ``CMFCC``
+    to ``True`` or ``False`` at once.
 
     Default: ``True``.
 
@@ -115,17 +115,6 @@ class RuntimeConfiguration(Configuration):
     Default: ``True``.
 
     .. versionadded:: 1.5.1
-    """
-
-    CFW = "cfw"
-    """
-    If ``True`` and the Python C++ extension ``cfw``
-    is available, use it.
-    Otherwise, use the pure Python code.
-
-    Default: ``True``.
-
-    .. versionadded:: 1.6.0
     """
 
     CEW_SUBPROCESS_ENABLED = "cew_subprocess_enabled"
@@ -551,36 +540,14 @@ class RuntimeConfiguration(Configuration):
 
     NUANCE_TTS_API_ID = "nuance_tts_api_id"
     """
-    Your ID value to use the Nuance TTS API.
-
-    You will be billed according to your Nuance Developers account plan.
-
-    Important: this feature is experimental, use at your own risk.
-    It is recommended not to use this TTS at word-level granularity,
-    as it will create many requests, hence it will be expensive.
-    If you still want to use it, you can enable
-    the TTS caching mechanism by setting
-    :data:`~aeneas.runtimeconfiguration.RuntimeConfiguration.TTS_CACHE`
-    to ``True``.
-
-    .. versionadded:: 1.5.0
+    Deprecated: Nuance TTS API is no longer supported.
+    This parameter is kept for backward compatibility but has no effect.
     """
 
     NUANCE_TTS_API_KEY = "nuance_tts_api_key"
     """
-    Your KEY value to use the Nuance TTS API.
-
-    You will be billed according to your Nuance Developers account plan.
-
-    Important: this feature is experimental, use at your own risk.
-    It is recommended not to use this TTS at word-level granularity,
-    as it will create many requests, hence it will be expensive.
-    If you still want to use it, you can enable
-    the TTS caching mechanism by setting
-    :data:`~aeneas.runtimeconfiguration.RuntimeConfiguration.TTS_CACHE`
-    to ``True``.
-
-    .. versionadded:: 1.5.0
+    Deprecated: Nuance TTS API is no longer supported.
+    This parameter is kept for backward compatibility but has no effect.
     """
 
     SAFETY_CHECKS = "safety_checks"
@@ -661,14 +628,7 @@ class RuntimeConfiguration(Configuration):
     parameter if the command ``espeak-ng`` is not available in
     one of the directories listed in your ``PATH`` environment variable.
 
-    Specify the value
-    :data:`~aeneas.synthesizer.Synthesizer.FESTIVAL` (``festival``)
-    to use the built-in Festival TTS wrapper.
-    You might need to provide a ``/full/path/to/your/text2wave`` value
-    to the
-    :data:`~aeneas.runtimeconfiguration.RuntimeConfiguration.TTS_PATH`
-    parameter if the command ``text2wave`` is not available in
-    one of the directories listed in your ``PATH`` environment variable.
+
 
     Specify the value
     :data:`~aeneas.synthesizer.Synthesizer.AWS` (``aws``)
@@ -681,15 +641,7 @@ class RuntimeConfiguration(Configuration):
     http://boto3.readthedocs.io/en/latest/guide/configuration.html
     for further details.
 
-    Specify the value
-    :data:`~aeneas.synthesizer.Synthesizer.NUANCE` (``nuance``)
-    to use the built-in Nuance TTS API wrapper;
-    you will need to provide your Nuance Developer API ID and API Key using the
-    :data:`~aeneas.runtimeconfiguration.RuntimeConfiguration.NUANCE_TTS_API_ID`
-    and
-    :data:`~aeneas.runtimeconfiguration.RuntimeConfiguration.NUANCE_TTS_API_KEY`
-    parameters.
-    Please note that you will be billed according to your Nuance Developers account plan.
+
 
     Specify the value
     :data:`~aeneas.synthesizer.Synthesizer.CUSTOM` (``custom``)
@@ -754,7 +706,7 @@ class RuntimeConfiguration(Configuration):
     TTS_API_SLEEP = "tts_api_sleep"
     """
     Wait this number of seconds before the next HTTP POST request
-    to the Nuance TTS API.
+    to a remote TTS API.
     This parameter can be used to throttle the HTTP usage.
     It cannot be a negative value.
 
@@ -763,12 +715,11 @@ class RuntimeConfiguration(Configuration):
 
     Default: ``1.000``.
 
-    .. versionadded:: 1.5.0
     """
 
     TTS_API_RETRY_ATTEMPTS = "tts_api_retry_attempts"
     """
-    Retry an HTTP POST request to the Nuance TTS API
+    Retry an HTTP POST request to a remote TTS API
     for this number of times before giving up.
     It must be an integer greater than zero.
 
@@ -927,7 +878,6 @@ class RuntimeConfiguration(Configuration):
         (C_EXTENSIONS, (True, bool, [], "run C/C++ extensions")),
         (CDTW, (True, bool, [], "run C extension cdtw")),
         (CEW, (True, bool, [], "run C extension cew")),
-        (CFW, (True, bool, [], "run C++ extension cfw")),
         (CMFCC, (True, bool, [], "run C extension cmfcc")),
         (CEW_SUBPROCESS_ENABLED, (False, bool, [], "run cew in separate subprocess")),
         (

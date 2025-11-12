@@ -56,8 +56,8 @@ and installers for Mac OS X and Windows
 
 **September 2016**: release of v1.6.0,
 with refactored TTS engine wrappers,
-added TTS cache, and
-experimental cfw C++ extension for Festival.
+added TTS cache.
+
 
 **December 2016**: release of v1.7.0,
 with TextGrid output,

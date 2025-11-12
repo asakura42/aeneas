@@ -53,9 +53,7 @@
     sudo apt-get install -y espeak espeak-data libespeak1 libespeak-dev
     echo "[INFO] B.2 Installing espeak... done"
 
-    echo "[INFO] B.3 Installing festival..."
-    sudo apt-get install -y festival*
-    echo "[INFO] B.3 Installing festival... done"
+
 
     echo "[INFO] B.4 Installing common libs using apt-get..."
     sudo apt-get install -y build-essential

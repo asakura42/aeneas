@@ -41,16 +41,6 @@ EXTENSION_CEW = Extension(
     extra_compile_args=ESPEAKNG_CFLAGS,
     extra_link_args=ESPEAKNG_LIBS,
 )
-EXTENSION_CFW = Extension(
-    name="aeneas.cfw.cfw",
-    sources=["aeneas/cfw/cfw_py.cc", "aeneas/cfw/cfw_func.cc"],
-    include_dirs=["aeneas/cfw/festival", "aeneas/cfw/speech_tools"],
-    libraries=[
-        "Festival",
-        "estools",
-        "estbase",
-        "eststring",
-    ],
-)
 
-setup(ext_modules=[EXTENSION_CEW, EXTENSION_CDTW, EXTENSION_CMFCC, EXTENSION_CFW])
+
+setup(ext_modules=[EXTENSION_CEW, EXTENSION_CDTW, EXTENSION_CMFCC])

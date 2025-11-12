@@ -89,7 +89,7 @@ using the library functions and constants.
 .. Topic:: Example
 
     Create a Task, process it, and print the resulting sync map:
-    
+
     .. code-block:: python
 
         #!/usr/bin/env python
@@ -141,7 +141,7 @@ Depending on what ``aeneas`` classes you want to use,
 you might need to install the following optional dependencies:
 
 * ``boto3`` (for using the AWS Polly TTS API wrapper)
-* ``requests`` (for using the Nuance TTS API wrapper)
+
 * ``Pillow`` (for plotting waveforms with :mod:`~aeneas.plotter`)
 * ``tgt`` (for outputting sync maps to TextGrid format)
 * ``youtube-dl`` (for downloading audio from Internet with :class:`~aeneas.downloader.Downloader`)
@@ -173,7 +173,7 @@ Python C/C++ extensions. If you install ``aeneas`` via ``PyPI``
 (e.g., ``pip install aeneas``), the compilation step is done automatically for you.
 
 .. warning::
-    
+
     Due to the Python C/C++ extension compile and setup mechanism,
     you must install ``numpy`` before installing ``aeneas``,
     and there is no (sane) way for the ``aeneas`` ``setup.py``
@@ -189,18 +189,18 @@ The Python C/C++ extensions included in ``aeneas`` are:
 
     cdtw
     cew
-    cfw
+
     cmfcc
     cwave
 
 * :mod:`aeneas.cdtw`, for computing the DTW;
 * :mod:`aeneas.cew`, for synthesizing text via the ``eSpeak`` C API;
-* :mod:`aeneas.cfw`, for synthesizing text via the ``Festival`` C++ API;
+
 * :mod:`aeneas.cmfcc`, for computing a MFCC representation of a WAVE (RIFF) audio file;
 * :mod:`aeneas.cwave`, for reading WAVE (RIFF) audio files.
 
 .. note::
-    
+
     Currently :mod:`aeneas.cew` is available on Linux, Mac OS X, and Windows.
     On Windows 64 bit it does not seem to work, probably because
     eSpeak is available only as a 32 bit program/library,
@@ -211,19 +211,10 @@ The Python C/C++ extensions included in ``aeneas`` are:
     Unless you work with thousands of text fragments,
     the performance difference is negligible.
 
-.. note::
 
-    Currently :mod:`aeneas.cfw` is experimental and disabled by default.
-    Probably it works only on Linux.
-    To compile it, make sure you have installed
-    the ``Festival`` and ``speech_tools`` libraries
-    (e.g., install the ``festival-dev`` package on DEB-based OSes) and
-    set the environment variable
-    ``AENEAS_FORCE_CFW=True``
-    before running ``pip install aeneas`` or ``python setup.py``.
 
 .. note::
-    
+
     Currently :mod:`aeneas.cwave` is not used.
     It will be enabled in a future version of ``aeneas``.
 
@@ -250,8 +241,8 @@ and they do not require explicitly passing an ``rconf`` object.
 
 .. Topic:: Example
 
-    Process a task with custom parameters, and log messages: 
-    
+    Process a task with custom parameters, and log messages:
+
     .. code-block:: python
 
         # create Logger which logs and tees
@@ -285,7 +276,7 @@ and then assign it to your Task.
 
 .. Topic:: Example
 
-    Create a TextFile programmatically, and assign it to Task: 
+    Create a TextFile programmatically, and assign it to Task:
 
     .. code-block:: python
 
@@ -334,7 +325,7 @@ Miscellanea
   :class:`~aeneas.audiofile.AudioFile`, etc.)
   and properly dispose of them in your code.
 * Wherever possible, ``NumPy`` views are used to avoid data copying.
-  Similarly, built-in ``NumPy`` functions are used to improve run time. 
+  Similarly, built-in ``NumPy`` functions are used to improve run time.
 * To avoid numerical issues, always use :class:`~aeneas.exacttiming.TimeValue`
   to hold time values with arbitrary precision.
   Note that doing so incurs in a negligible execution slow down,
@@ -351,7 +342,7 @@ The main ``aeneas`` package contains several subpackages:
 
 * :mod:`aeneas.cdtw` (Python C extension)
 * :mod:`aeneas.cew` (Python C extension)
-* :mod:`aeneas.cfw` (Python C++ extension)
+
 * :mod:`aeneas.cmfcc` (Python C extension)
 * :mod:`aeneas.cwave` (Python C extension)
 * :mod:`aeneas.extra`
@@ -478,9 +469,3 @@ in the synthesis step of the alignment procedure.
     basettswrapper
     espeakttswrapper
     espeakngttswrapper
-    festivalttswrapper
-    macosttswrapper
-    nuancettswrapper
-
-
-
